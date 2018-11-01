@@ -19,7 +19,8 @@ var config = {
     devBaseUrl: 'http://localhost',
     paths: {
         html: './src/*.html',
-        js: '/.src/**/*.js',
+        js: './src/**/*.js',
+        images: './src/images/*',
         css: [
             'node_modules/bootstrap/dist/css/bootstrap.min.css',
             'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
@@ -69,7 +70,20 @@ gulp.task('css', function () {
     gulp.src(config.paths.css)
         .pipe(concat('bundle.css'))
         .pipe(gulp.dest(config.paths.dist + '/css'));
-})
+});
+
+// Migrates images to dist folder
+// Note that I cold even optimize my images here
+gulp.task('images', function () {
+    gulp.src(config.paths.images)
+        .pipe(gulp.dest(config.paths.dist + '/images'))
+        .pipe(connect.reload());
+
+        //publish favicon
+        gulp.src('./src/favicon.ico')
+            .pipe(gulp.dest(config.paths.dist));
+
+});
 
 // EsLint task
 gulp.task('lint', function () {
@@ -87,4 +101,4 @@ gulp.task('watch', function () {
 
 
 // Task default to run html and open
-gulp.task('default', ['html', 'js', 'css', 'lint', 'open', 'watch']);
+gulp.task('default', ['html', 'js', 'css', 'images', 'lint', 'open', 'watch']);
