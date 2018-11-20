@@ -15,7 +15,30 @@ var AuthorActions = {
             author: newAuthor
         });
 
+    },
+
+    updateAuthor: function(author) {
+        // here will be the AJAX
+        var updateAuthor = AuthorApi.saveAuthor(author);
+
+        // Hey dispatcher, go tell all the stores that an author was just created
+        Dispatcher.dispatch({
+            actionType: ActionTypes.UPDATE_AUTHOR,
+            author: updateAuthor
+        });
+
+    },
+
+    deleteAuthor: function(id) {
+        AuthorApi.deleteAuthor(id);
+
+        // Hey dispatcher, go tell all the stores that an author was just created
+        Dispatcher.dispatch({
+            actionType: ActionTypes.DELETE_AUTHOR,
+            id: id
+        });
+
     }
 };
 
-getMatchedCSSRules.exports = AuthorActions;
+module.exports = AuthorActions;
